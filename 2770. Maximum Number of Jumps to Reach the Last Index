@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int maximumJumps(vector<int>& num, int target) 
+    {
+         int n = num.size();
+        
+        vector<int> dp(n, -1);
+        
+        dp[0] = 0;
+
+        for (int i = 0; i < n; i++) {
+            
+            if (dp[i] == -1)
+
+            continue;
+
+            for (int j = i + 1; j < n; j++) {
+                
+                long long diff = 1LL * num[j] - num[i];
+
+                if (diff >= -target && diff <= target) {
+                    
+                    dp[j] = max(dp[j], dp[i] + 1);
+                }
+            }
+        }
+
+        return dp[n - 1];
+        
+    }
+};
