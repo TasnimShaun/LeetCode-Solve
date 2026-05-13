@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minDominoRotations(vector<int>& topRow, vector<int>& bottomRow) {
+        int minRotations = INT_MAX;
+
+        int faceCount[7] = {};
+        for (int i = 0; i < topRow.size(); i++) {
+            faceCount[topRow[i]]++;
+            if (bottomRow[i] != topRow[i])
+                faceCount[bottomRow[i]]++;
+        }
+
+        for (int candidate = 1; candidate <= 6; candidate++) {
+            if (faceCount[candidate] < topRow.size()) continue;
+
+            int rotationsToTop = 0, rotationsToBottom = 0;
+            bool canAlign = true;
+
+            for (int i = 0; i < topRow.size(); i++) {
+                if (topRow[i] != candidate && bottomRow[i] != candidate) {
+                    canAlign = false;
+                    break;
+                }
+                if (topRow[i] != candidate) rotationsToTop++;
+                if (bottomRow[i] != candidate) rotationsToBottom++;
+            }
+
+            if (canAlign)
+                minRotations = min(minRotations, min(rotationsToTop, rotationsToBottom));
+        }
+
+        return minRotations == INT_MAX ? -1 : minRotations;
+    }
+};
