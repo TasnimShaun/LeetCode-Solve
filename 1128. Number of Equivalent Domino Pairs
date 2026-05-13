@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int numEquivDominoPairs(vector<vector<int>>& dominoes) {
+        map<pair<int, int>, int> dominoCount;
+        int pairCount = 0;
+        
+        for(auto& domino : dominoes) {
+            if(domino[0] > domino[1]) 
+                swap(domino[0], domino[1]);
+                
+            pairCount += dominoCount[make_pair(domino[0], domino[1])]++;
+        }
+        
+        return pairCount;
+    }
+};
