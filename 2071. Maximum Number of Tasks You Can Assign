@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int maxTaskAssign(vector<int>& tasks, vector<int>& workers, int pills, int pillStrength) {
+        int low = 0, high = min(tasks.size(), workers.size());
+
+        sort(tasks.begin(), tasks.end());
+        sort(workers.begin(), workers.end());
+
+        while (low < high) {
+            int mid = (low + high + 1) / 2;
+            int pillsUsed = 0;
+            multiset<int> availableWorkers(workers.end() - mid, workers.end());
+
+            bool possible = true;
+            for (int taskIndex = mid - 1; taskIndex >= 0; --taskIndex) {
+                auto strongestWorker = prev(availableWorkers.end());
+
+                if (*strongestWorker < tasks[taskIndex]) {
+                    auto workerWithPill = availableWorkers.lower_bound(tasks[taskIndex] - pillStrength);
+                    if (workerWithPill == availableWorkers.end()) {
+                        possible = false;
+                        break;
+                    }
+                    ++pillsUsed;
+                    if (pillsUsed > pills) {
+                        possible = false;
+                        break;
+                    }
+                    availableWorkers.erase(workerWithPill);
+                } else {
+                    availableWorkers.erase(strongestWorker);
+                }
+            }
+
+            if (possible)
+                low = mid;
+            else
+                high = mid - 1;
+        }
+        return low;
+    }
+};
