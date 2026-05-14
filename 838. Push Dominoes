@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string pushDominoes(string s) {
+        s = 'L' + s + 'R';
+        string result;
+
+        int left = 0;
+        for (int right = 1; right < s.size(); ++right) {
+            if (s[right] == '.') {
+                continue;
+            }
+
+            int gap = right - left - 1;
+            if (left > 0) 
+                result += s[left];
+
+            if (s[left] == s[right]) {
+                result += string(gap, s[left]);
+            }
+            else if (s[left] == 'L' && s[right] == 'R') {
+                result += string(gap, '.');
+            }
+            else { 
+                result += string(gap / 2, 'R')
+                        + string(gap % 2, '.')
+                        + string(gap / 2, 'L');
+            }
+            left = right;
+        }
+        return result;
+    }
+};
