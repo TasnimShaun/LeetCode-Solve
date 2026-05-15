@@ -1,0 +1,21 @@
+
+class Solution {
+public:
+    int dynamic_arr[50];
+    int fibo(int n)
+    {
+        if(n<3)
+         return n;
+         if(dynamic_arr[n] != -1)
+          return dynamic_arr[n];
+         dynamic_arr[n]= fibo(n-1) + fibo(n-2);
+          return dynamic_arr[n];
+
+    }
+    int climbStairs(int n) {
+        memset(dynamic_arr,-1,sizeof(dynamic_arr));
+        int answer = fibo(n);
+        return answer;
+        
+    }
+};
