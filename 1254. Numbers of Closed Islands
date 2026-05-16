@@ -1,0 +1,51 @@
+class Solution {
+public:
+       int row, col;
+       bool vis[105][105];
+       bool flag;
+       vector<pair<int,int>> direction = {{0,1},{0,-1},{-1,0},{1,0}};
+         bool valid(int i , int j)
+         {
+            if(i<0 || i>=row || j<0 || j>=col)
+               return false;
+            return true;
+         }
+
+         void dfs(int source_i,int source_j,vector<vector<int>>& grid)
+         {
+            vis[source_i][source_j] = true;
+             for(int i =0;i<4;i++)
+             {
+                int child_i = source_i + direction[i].first;
+                int child_j = source_j + direction[i].second;
+                if(!valid(child_i,child_j))
+                flag = false;
+                if(valid(child_i,child_j) && !vis[child_i][child_j] && grid[child_i][child_j] == 0)
+                dfs(child_i,child_j,grid);
+             }
+         }
+
+
+    int closedIsland(vector<vector<int>>& grid) {
+        row = grid.size();
+        col = grid[0].size();
+        memset(vis,false,sizeof(vis));
+        int count =0;
+        
+    for(int i=0;i<row;i++)
+        for(int j=0;j<col;j++)
+                {
+                    if(!vis[i][j] && grid[i][j] == 0)
+                    {
+                        flag = true;
+                    dfs(i,j,grid);
+                    if(flag)
+                    count++;
+                    
+                    }
+                }
+                return count;
+                
+        
+    }
+};
