@@ -1,0 +1,47 @@
+class Solution {
+public:
+    bool vis[55][55];
+    vector<pair<int,int>> direction ={{0,-1},{0,1},{-1,0},{1,0}};
+    int row,col,mx;
+     int count;
+    bool valid(int i, int j)
+    {
+        if(i<0 || i>=row || j<0|| j>=col)
+        return false;
+         return true;
+    }
+
+    void dfs(int source_i, int source_j, vector<vector<int>> &grid)
+    {
+        vis[source_i][source_j] =true;
+        count++;
+        for(int i=0;i<4;i++)
+        {
+            int child_i = source_i + direction[i].first;
+            int child_j = source_j + direction[i].second;
+            if(valid(child_i,child_j) && !vis[child_i][child_j] 
+            && grid[child_i][child_j] == 1)
+            dfs(child_i,child_j,grid);
+        }
+
+    }
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+       
+        row = grid.size();
+        col = grid[0].size();
+        mx  = 0;
+        memset( vis,false,sizeof(vis));
+        for(int i =0;i<row;i++)
+           for(int j =0;j<col;j++)
+             if(!vis[i][j] && grid[i][j]== 1){
+
+                count = 0;
+               dfs(i,j,grid);
+               mx = max(count,mx);
+               
+               }
+        return mx;       
+
+        
+    }
+};
