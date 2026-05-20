@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> findThePrefixCommonArray(vector<int>& A, vector<int>& B) {
+        
+        // Size of the arrays
+        int n = A.size();
+
+        // Frequency array to count occurrences of numbers
+        // Numbers are from 1 to n
+        vector<int> freq(n + 1, 0);
+
+        // Answer array
+        vector<int> ans(n);
+
+        // Count of common elements
+        int common = 0;
+
+        // Traverse both arrays
+        for (int i = 0; i < n; i++) {
+
+            // Increase frequency of A[i]
+            freq[A[i]]++;
+
+            // If frequency becomes 2,
+            // it means the number appeared in both arrays
+            if (freq[A[i]] == 2) {
+                common++;
+            }
+
+            // Increase frequency of B[i]
+            freq[B[i]]++;
+
+            // Again check if it became common
+            if (freq[B[i]] == 2) {
+                common++;
+            }
+
+            // Store current common count
+            ans[i] = common;
+        }
+
+        // Return final prefix common array
+        return ans;
+    }
+};
