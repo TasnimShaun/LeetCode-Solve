@@ -1,0 +1,47 @@
+class Solution {
+private:
+
+    static constexpr int LIMIT = 100001;
+
+    // wave count for each number
+    static inline int waveCount[LIMIT];
+
+    // prefix sum of wave counts
+    static inline int prefixWaveSum[LIMIT];
+
+    // Precompute all values once
+    static inline bool initialized = []() {
+
+        for (int number = 100; number < LIMIT; number++) {
+
+            int rightDigit = number % 10;
+            int middleDigit = (number / 10) % 10;
+            int leftDigit = (number / 100) % 10;
+
+            // Check whether the middle digit is a peak or a valley
+            bool formsWave =
+                (middleDigit > max(leftDigit, rightDigit)) ||
+                (middleDigit < min(leftDigit, rightDigit));
+
+            // Current number's waviness
+            waveCount[number] =
+                waveCount[number / 10] + formsWave;
+
+            // Prefix sum for range queries
+            prefixWaveSum[number] =
+                prefixWaveSum[number - 1] +
+                waveCount[number];
+        }
+
+        return false;
+    }();
+
+public:
+
+    int totalWaviness(int leftBound,
+                      int rightBound) {
+
+        return prefixWaveSum[rightBound] -
+               prefixWaveSum[leftBound - 1];
+    }
+};
