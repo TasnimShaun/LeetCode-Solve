@@ -1,0 +1,29 @@
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+
+        // Original head save করে রাখছি
+        // কারণ head pointer পরে সামনে move করবে
+        ListNode* res = head;
+
+        // যতক্ষণ current node এবং next node আছে
+        while (head && head->next) {
+
+            // যদি current node এবং next node-এর value একই হয়
+            if (head->val == head->next->val) {
+
+                // duplicate node skip করে দাও
+                // current node সরাসরি next-এর next node-কে point করবে
+                head->next = head->next->next;
+
+            } else {
+
+                // duplicate না থাকলে next node-এ যাও
+                head = head->next;
+            }
+        }
+
+        // modified linked list-এর head return
+        return res;
+    }
+};
